@@ -1,18 +1,21 @@
 import { Label } from '../ui/label.jsx'
 import { Input } from '../ui/input.jsx';
 import React from 'react';
-import { Select, SelectValue } from '../ui/select.jsx';
-import { SelectContent, SelectTrigger } from '@radix-ui/react-select';
+import { Select, SelectValue, SelectContent, SelectTrigger } from '../ui/select.jsx';
+import { Textarea } from '../ui/textarea.jsx';
+import { Button } from '../ui/button.jsx';
 
 const types ={
   INPUT:"input",
   SELECT:"select",
-
 }
 
-const CommonForm = ({formControls}) => {
+const CommonForm = ({formControls,formData,setFormData,onSubmit,buttonText}) => {
   function renderInputsByComponentType(getControlItem){
     let element = null;
+    const value=formData(getControlItem.name) || ''
+
+
     switch(getControlItem.componentType) {
       case types.INPUT:
         element=(<Input
@@ -20,11 +23,12 @@ const CommonForm = ({formControls}) => {
         placeholder={getControlItem.placeholder}
         id={getControlItem.name}
         type={getControlItem.type}
+        value={value}
         />
         );
         break;
         case "select":
-          element=(<Select>
+          element=(<Select value={value}>
             <SelectTrigger className='w-full'>
               <SelectValue placeholder={getControlItem.placeholder}/>
           </SelectTrigger>
@@ -40,14 +44,12 @@ const CommonForm = ({formControls}) => {
           </Select>
           );
           break;
-          
+
           case "textarea":
-            element=(<Input
-            name={getControlItem.name}
-            placeholder={getControlItem.placeholder}
-            id={getControlItem.name}
-            type={getControlItem.type}
-            />
+            element=(
+              <Textarea value={value} name={getControlItem.name} placeholder={getControlItem.placeholder} id={getControlItem.id}>
+
+              </Textarea>
             );
             break;
           default:
@@ -64,7 +66,7 @@ const CommonForm = ({formControls}) => {
   
   }
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <div className='flex flex-col gap-3'>
         {
           formControls.map(controlItem=>
@@ -78,6 +80,7 @@ const CommonForm = ({formControls}) => {
         }
 
       </div>
+      <Button type="Submit" className="mt-2 w-full">{buttonText || "Submit"}</Button>
 
 
     </form>
