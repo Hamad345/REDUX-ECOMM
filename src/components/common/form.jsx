@@ -24,11 +24,21 @@ const CommonForm = ({formControls,formData,setFormData,onSubmit,buttonText}) => 
         id={getControlItem.name}
         type={getControlItem.type}
         value={value}
+        onChange={event=>setFormData(
+          {
+            ...formData,
+            [getControlItem.name] : event.target.value
+          }
+        )}
         />
         );
         break;
         case "select":
-          element=(<Select value={value}>
+          element=(<Select onValueChange={(value)=>setFormData({
+            ...formData,
+            [getControlItem.name] : value,
+
+          })}   value={value}>
             <SelectTrigger className='w-full'>
               <SelectValue placeholder={getControlItem.placeholder}/>
           </SelectTrigger>
@@ -47,7 +57,12 @@ const CommonForm = ({formControls,formData,setFormData,onSubmit,buttonText}) => 
 
           case "textarea":
             element=(
-              <Textarea value={value} name={getControlItem.name} placeholder={getControlItem.placeholder} id={getControlItem.id}>
+              <Textarea value={value} name={getControlItem.name} placeholder={getControlItem.placeholder} id={getControlItem.id} onChange={event=>setFormData(
+                {
+                  ...formData,
+                  [getControlItem.name] : event.target.value
+                }
+              )}>
 
               </Textarea>
             );
@@ -59,6 +74,13 @@ const CommonForm = ({formControls,formData,setFormData,onSubmit,buttonText}) => 
               placeholder={getControlItem.placeholder}
               id={getControlItem.name}
               type={getControlItem.type}
+              value={value} 
+              onChange={event=>setFormData(
+                {
+                  ...formData,
+                  [getControlItem.name] : event.target.value
+                }
+              )}
               />
               );
               break;
