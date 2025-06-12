@@ -91,16 +91,18 @@ const CommonForm = ({formControls,formData,setFormData,onSubmit,buttonText}) => 
     <form onSubmit={onSubmit}>
       <div className='flex flex-col gap-3'>
         {
-          formControls.map(controlItem=>
-          <div key={controlItem.name } className='grid w-full gap-1.5'>
+          (formControls || []).map(controlItem =>
+         
+      
+          <div key={controlItem.name} className='grid w-full gap-1.5'>
             <Label className="mb-1">{controlItem.label}</Label>
             {
               renderInputsByComponentType(controlItem) 
             }
 
-          </div>)
+          </div>
+          )
         }
-
       </div>
       <Button type="Submit" className="mt-2 w-full">{buttonText || "Submit"}</Button>
 

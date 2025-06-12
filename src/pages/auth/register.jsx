@@ -1,14 +1,18 @@
 import CommonForm from '@/components/common/form'
 import React, { useState } from 'react'
 import { Link } from 'react-router'
+
 const initialState ={
   userName : "",
   email : "",
   password:"",
 }
 
-const AuthRegister = () => {
+const AuthRegister = ({formControls}) => {
   const [formData,setFormData]=useState(initialState)
+  const onSubmit=()=>{
+
+  }
   return (
     <div className='mx-auto w-full max-w-md space-y-6'>
       <div className='text-center'>
@@ -23,7 +27,7 @@ const AuthRegister = () => {
 
       </div>
       <CommonForm 
-      formControls={registerFormControls}
+      formControls={formControls}
       buttonText={"Sign Up"}
       formData={formData}
       setFormData={setFormData}

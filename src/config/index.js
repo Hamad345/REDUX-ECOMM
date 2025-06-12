@@ -1,8 +1,6 @@
-// import { Label } from "@radix-ui/react-label";
-// import { type } from "os";
-// import { Placeholder } from "react-bootstrap";
 
-export const registerFormontrols = [
+
+export const formControls = [
     {
         name:"userName",
         label: "User Name",
