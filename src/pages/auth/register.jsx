@@ -3,6 +3,7 @@
 import { registerFormControls } from "@/config";
 // import { registerUser } from "@/store/auth-slice";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 // import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -13,10 +14,15 @@ const initialState ={
   email : "",
   password:"",
 }
+const dispatch=useDispatch;
+const navigate=useNavigate;  
 
 function AuthRegister() {
   const [formData,setFormData]=useState(initialState)
-  const onSubmit=()=>{
+  const onSubmit=(e)=>{
+    e.preventDefault()
+    // dispatch(registerUser(formData)).then(()=>)
+   
 
   }
   return (
