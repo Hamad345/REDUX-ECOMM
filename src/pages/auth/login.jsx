@@ -1,9 +1,9 @@
 import CommonForm from "@/components/common/form";
 // import { useToast } from "@/components/ui/use-toast";
 import { loginFormControls } from "@/config";
-// import { registerUser } from "@/store/auth-slice";
+import { loginUser } from "@/store/auth-slice";
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -16,9 +16,12 @@ const initialState ={
 
 function AuthLogin() {
   const [formData,setFormData]=useState(initialState)
-  const onSubmit=()=>{
-
-  }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  function onSubmit(event) {
+    event.preventDefault();
+    
+    dispatch(loginUser(formData)).then((data) => console.log(data))}
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
     <div className="text-center">
