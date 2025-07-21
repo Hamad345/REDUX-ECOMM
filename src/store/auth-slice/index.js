@@ -73,6 +73,21 @@ export const checkAuth = createAsyncThunk(
     return response.data;
   }
 );
+export const registerUser = createAsyncThunk(
+  "/auth/register",
+
+  async (formData) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/register",
+      formData,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
