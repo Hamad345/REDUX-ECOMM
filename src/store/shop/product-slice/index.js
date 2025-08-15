@@ -4,75 +4,82 @@ import axios from "axios";
 const initialState = {
   isLoading: false,
   productList: [],
-  productDetails: null,
 };
 
-export const fetchAllFilteredProducts = createAsyncThunk(
+export const addNewProduct = createAsyncThunk(
+  "/products/addnewproduct",
+  async (formData) => {
+    const result = await axios.post(
+      "http://localhost:5000/api/admin/products/add",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return result?.data;
+  }
+);
+
+export const fetchAllProducts = createAsyncThunk(
   "/products/fetchAllProducts",
-  async ({ filterParams, sortParams }) => {
-    console.log(fetchAllFilteredProducts, "fetchAllFilteredProducts");
-
-    const query = new URLSearchParams({
-      ...filterParams,
-      sortBy: sortParams,
-    });
-
+  async () => {
     const result = await axios.get(
-      `http://localhost:5000/api/shop/products/get?${query}`
+      "http://localhost:5000/api/admin/products/get"
     );
-
-    console.log(result);
 
     return result?.data;
   }
 );
 
-export const fetchProductDetails = createAsyncThunk(
-  "/products/fetchProductDetails",
+export const editProduct = createAsyncThunk(
+  "/products/editProduct",
+  async ({ id, formData }) => {
+    const result = await axios.put(
+      `http://localhost:5000/api/admin/products/edit/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return result?.data;
+  }
+);
+
+export const deleteProduct = createAsyncThunk(
+  "/products/deleteProduct",
   async (id) => {
-    const result = await axios.get(
-      `http://localhost:5000/api/shop/products/get/${id}`
+    const result = await axios.delete(
+      `http://localhost:5000/api/admin/products/delete/${id}`
     );
 
     return result?.data;
   }
 );
 
-const shoppingProductSlice = createSlice({
-  name: "shoppingProducts",
+const AdminProductsSlice = createSlice({
+  name: "adminProducts",
   initialState,
-  reducers: {
-    setProductDetails: (state) => {
-      state.productDetails = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllFilteredProducts.pending, (state, action) => {
+      .addCase(fetchAllProducts.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchAllFilteredProducts.fulfilled, (state, action) => {
+      .addCase(fetchAllProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.productList = action.payload.data;
       })
-      .addCase(fetchAllFilteredProducts.rejected, (state, action) => {
+      .addCase(fetchAllProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.productList = [];
-      })
-      .addCase(fetchProductDetails.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchProductDetails.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.productDetails = action.payload.data;
-      })
-      .addCase(fetchProductDetails.rejected, (state, action) => {
-        state.isLoading = false;
-        state.productDetails = null;
       });
   },
 });
 
-export const { setProductDetails } = shoppingProductSlice.actions;
-
-export default shoppingProductSlice.reducer;
+export default AdminProductsSlice.reducer;
